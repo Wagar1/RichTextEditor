@@ -26,6 +26,18 @@
             replaceSelectedText('italic');
         }
         
+        function makeNormal(){
+            var sel, range;
+            sel = document.getElementById('myframe').contentWindow.getSelection();
+            var el = document.getElementById('myframe').contentWindow.getSelection();
+            if (sel.rangeCount) {
+                range = sel.getRangeAt(0);
+                $(el.anchorNode).contents().unwrap();
+                range.deleteContents();
+                range.insertNode(el.anchorNode);
+            }
+        }
+
         function replaceSelectedText(type) {
             var sel, range;
             var replacementText;
