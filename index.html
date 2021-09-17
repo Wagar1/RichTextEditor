@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .frame{
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="makeBold()">BOLD</button>
+    <button onclick="makeItalic()">ITALIC</button>
+    <button onclick="makeNormal()">NORMAL</button>
+    <iframe id="myframe" class="frame" src="editor.html" frameborder="0"></iframe>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        function makeBold(){
+            replaceSelectedText('bold');
+        }
+        function makeItalic(){
+            replaceSelectedText('italic');
+        }
+        
+        function replaceSelectedText(type) {
+            var sel, range;
+            var replacementText;
+            if (document.getElementById('myframe').contentWindow.getSelection) {
+                sel = document.getElementById('myframe').contentWindow.getSelection();
+                if (sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    replacementText = range.toString();
+                    range.deleteContents();
+                    var node;
+                    if(type === 'bold'){
+                        node = document.getElementById('myframe').contentWindow.document.createElement('strong');
+                        var textnode = document.getElementById('myframe').contentWindow.document.createTextNode(replacementText); 
+                        node.appendChild(textnode);
+                    }
+                    else if(type==='italic'){
+                        node = document.getElementById('myframe').contentWindow.document.createElement('em');
+                        var textnode = document.getElementById('myframe').contentWindow.document.createTextNode(replacementText); 
+                        node.appendChild(textnode);
+                    }
+                    range.insertNode(node);
+                }
+            } else if (document.getElementById('myframe').contentWindow.document.selection && document.getElementById('myframe').contentWindow.document.selection.createRange) {
+                range = document.getElementById('myframe').contentWindow.document.selection.createRange();
+                range.text = replacementText;
+            }
+        }
+    </script>
+</body>
+</html>
